@@ -8,7 +8,7 @@ var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0
 
 var user = []
 
-const config = require('./config.json')
+const config = require('./config')
 
 const client = new line.Client(config);
 
