@@ -33,14 +33,14 @@ function handleEvent (event) {
 
     if(event.type == "message" && message.type == "text"){
         if(message.text == "start") {
-            client.replyMessage(event.replyToken, {
+            return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : "Inisialisasi berhasil! (moon grin)"
             })
         }
         else if(message.text == "waktu sholat"){
             var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-            returnclient.replyMessage(event.replyToken, {
+            return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : `\0x1000A8 Waktu sholat untuk ${utc} \0x1000A8 \n
                         Subuh   : ${prayer.fajr}\n
