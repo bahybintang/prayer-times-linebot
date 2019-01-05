@@ -16,7 +16,7 @@ schedule.scheduleJob("1 0 * * *", () => {
 
 const client = new line.Client(config);
 
-app.set('port', process.env.PORT || 5000)
+app.set('port', (process.env.PORT || 5000))
 
 app.listen(app.get('port'), () => {
     console.log(`Connected to port ${app.get('port')}!`)
@@ -29,16 +29,18 @@ app.post('/', line.middleware(config), (req, res) => {
 })
 
 function handleEvent (event) {
+    console.log("event handled")
     const message = event.message
 
-    if(event.type == "message" && message.type == "text"){
-        if(message.text == "start") {
+    if(event.type === "message" && message.type === "text"){
+        console.log("text event")
+        if(message.text === "start") {
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : "Inisialisasi berhasil! (moon grin)"
             })
         }
-        else if(message.text == "waktu sholat"){
+        else if(message.text === "waktu sholat"){
             var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             return client.replyMessage(event.replyToken, {
                 type : "text",
