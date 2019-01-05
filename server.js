@@ -1,4 +1,5 @@
 var schedule = require('node-schedule')
+let rule = new schedule.RecurrenceRule();
 var prayer = require('./PrayerTimes')
 var app = require('express')()
 var _ = require('lodash')
@@ -77,6 +78,7 @@ function handleEvent (event) {
 }
 
 function scheduling() {
+    rule.tz = 'Asia/Jakarta'
     prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
     
     const jobNames = _.keys(schedule.scheduledJobs);
@@ -87,7 +89,7 @@ function scheduling() {
         }
     }
 
-    schedule.scheduleJob("dhuhr", `${prayerTimes.dhuhr.slice(':')[1]} ${prayerTimes.dhuhr.slice(':')[0]} * * *`, () => {
+    schedule.scheduleJob("dhuhr", `${Number(prayerTimes.dhuhr.split(':')[1])} ${Number(prayerTimes.dhuhr.split(':')[0])} * * *`, () => {
         if(user.length !== 0){
             client.multicast(user, {
                 type: "text",
@@ -98,7 +100,7 @@ function scheduling() {
         }
     })
 
-    schedule.scheduleJob("asr", `${prayerTimes.asr.slice(':')[1]} ${prayerTimes.asr.slice(':')[0]} * * *`, () => {
+    schedule.scheduleJob("asr", `${Number(prayerTimes.asr.split(':')[1])} ${Number(prayerTimes.asr.split(':')[0])} * * *`, () => {
         if(user.length !== 0){
             client.multicast(user, {
                 type: "text",
@@ -109,7 +111,7 @@ function scheduling() {
         }
     })
 
-    schedule.scheduleJob("fajr", `${prayerTimes.fajr.slice(':')[1]} ${prayerTimes.fajr.slice(':')[0]} * * *`, () => {
+    schedule.scheduleJob("fajr", `${Number(prayerTimes.fajr.split(':')[1])} ${Number(prayerTimes.fajr.split(':')[0])} * * *`, () => {
         if(user.length !== 0){
             client.multicast(user, {
                 type: "text",
@@ -120,7 +122,7 @@ function scheduling() {
         }
     })
 
-    schedule.scheduleJob("isha", `${prayerTimes.isha.slice(':')[1]} ${prayerTimes.isha.slice(':')[0]} * * *`, () => {
+    schedule.scheduleJob("isha", `${Number(prayerTimes.isha.split(':')[1])} ${Number(prayerTimes.isha.split(':')[0])} * * *`, () => {
         if(user.length !== 0){
             client.multicast(user, {
                 type: "text",
@@ -131,7 +133,7 @@ function scheduling() {
         }
     })
 
-    schedule.scheduleJob("maghrib", `${prayerTimes.maghrib.slice(':')[1]} ${prayerTimes.maghrib.slice(':')[0]} * * *`, () => {
+    schedule.scheduleJob("maghrib", `${Number(prayerTimes.maghrib.split(':')[1])} ${Number(prayerTimes.maghrib.split(':')[0])} * * *`, () => {
         if(user.length !== 0){
             client.multicast(user, {
                 type: "text",
