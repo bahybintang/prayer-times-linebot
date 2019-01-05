@@ -45,6 +45,13 @@ function handleEvent (event) {
     if(event.type === "message" && message.type === "text"){
         message.text = message.text.toLowerCase()
         if(message.text === "start") {
+            var source = event.source.userId ? event.source.userId : event.source.groupId
+            var index = user.indexOf(source)
+
+            if(index < 0){
+                user.push(source)
+            }
+
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : `Inisialisasi berhasil! ${String.fromCodePoint(0x10007A)}`
@@ -60,7 +67,11 @@ function handleEvent (event) {
     }
     else if (event.type === "follow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        user.push(source)
+        var index = user.indexOf(source)
+
+        if(index < 0){
+            user.push(source)
+        }
     }
     else if (event.type === "unfollow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
