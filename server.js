@@ -3,6 +3,7 @@ var prayer = require('./PrayerTimes')
 var app = require('express')()
 var _ = require('lodash')
 var line = require('@line/bot-sdk')
+require('newrelic')
 
 prayer.setMethod('Egypt');
 var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529], 7, 0, "24h")
@@ -31,10 +32,6 @@ app.post('/', line.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result));
-})
-
-app.get('/', (req, res) => {
-    res.send({ message : "hehe" })
 })
 
 function handleEvent (event) {
