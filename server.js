@@ -10,6 +10,8 @@ var user = []
 
 const config = require('./config')
 
+console.log(config)
+
 const client = new line.Client(config);
 
 scheduling();
