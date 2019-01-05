@@ -46,6 +46,7 @@ function handleEvent (event) {
     const message = event.message
 
     if(event.type === "message" && message.type === "text"){
+        message.text = message.text.toLowerCase()
         if(message.text === "start") {
             return client.replyMessage(event.replyToken, {
                 type : "text",
@@ -63,6 +64,13 @@ function handleEvent (event) {
     else if (event.type === "follow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
         user.push(source)
+    }
+    else if (event.type === "unfollow") {
+        var source = event.source.userId ? event.source.userId : event.source.groupId
+        var index = user.indexOf(source)
+        if(index > -1) {
+            user.splice(index, 1)
+        }
     }
     else {
         return Promise.resolve(null);
