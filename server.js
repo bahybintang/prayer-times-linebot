@@ -35,6 +35,7 @@ function handleEvent (event) {
     if(event.type === "message" && message.type === "text"){
         console.log("text event")
         if(message.text === "start") {
+            console.log("start")
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : "Inisialisasi berhasil! (moon grin)"
