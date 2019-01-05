@@ -18,10 +18,6 @@ scheduling();
 
 schedule.scheduleJob("init", "1 0 * * *", scheduling)
 
-schedule.scheduleJob("refresh", "*/25 * * * *", () => {
-    console.log("Refresh avoid sleeping!")
-})
-
 app.set('port', (process.env.PORT || 5000))
 
 app.listen(app.get('port'), () => {
