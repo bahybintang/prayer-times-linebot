@@ -60,7 +60,7 @@ function handleEvent (event) {
             var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             return client.replyMessage(event.replyToken, {
                 type : "text",
-                text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk ${utc} ${String.fromCodePoint(0x1000A8)} \n\nSubuh    : 04:10 ${prayerTimes.fajr}\nDhuhur   : ${prayerTimes.dhuhr}\nAshar     : ${prayerTimes.asr}\nMaghrib  : ${prayerTimes.maghrib}\nIsya      : ${prayerTimes.isha}`
+                text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk ${utc} ${String.fromCodePoint(0x1000A8)} \n\nSubuh    : ${prayerTimes.fajr}\nDhuhur   : ${prayerTimes.dhuhr}\nAshar     : ${prayerTimes.asr}\nMaghrib  : ${prayerTimes.maghrib}\nIsya      : ${prayerTimes.isha}`
             })
         }
     }
