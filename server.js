@@ -5,7 +5,7 @@ var line = require('@line/bot-sdk')
 
 var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
 
-var user
+var user = []
 
 const config = {
     channelAccessToken: 'QPpBgdobbUDWp/UbPt4ejatkYIqKnBkSl4o1ZMTuxhsCI/Y9o8KE/LrRqTwl33m4hh/oaVbN1JJaQWeDtbkCUe6+AdOgQiPh6B9JiY8B742vlwyKGiwdTvw645gqBb3JVHh0YipcMT9AMmiG65Ia8gdB04t89/1O/w1cDnyilFU=',
@@ -19,6 +19,7 @@ schedule.scheduleJob("1 0 * * *", () => {
 })
 
 schedule.scheduleJob("15 * * * * *", () => {
+    console.log("casted")
     client.multicast(user, {
         type: "text",
         text: "test"
@@ -38,13 +39,10 @@ app.post('/', line.middleware(config), (req, res) => {
 })
 
 function handleEvent (event) {
-    console.log("event handled")
     const message = event.message
 
     if(event.type === "message" && message.type === "text"){
-        console.log("text event")
         if(message.text === "start") {
-            console.log("start")
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : `Inisialisasi berhasil! ${String.fromCodePoint(0x10007A)}`
