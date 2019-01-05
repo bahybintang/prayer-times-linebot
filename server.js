@@ -18,12 +18,16 @@ schedule.scheduleJob("1 0 * * *", () => {
     prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
 })
 
-schedule.scheduleJob("15 * * * * *", () => {
+schedule.scheduleJob("*/15 * * * * *", () => {
     console.log("casted")
-    client.multicast(user, {
-        type: "text",
-        text: "test"
-    })
+    if(user.length !== 0){
+        client.multicast(user, {
+            type: "text",
+            text: "test"
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 })
 
 app.set('port', (process.env.PORT || 5000))
