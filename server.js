@@ -4,13 +4,12 @@ var app = require('express')()
 var _ = require('lodash')
 var line = require('@line/bot-sdk')
 
-var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
+prayer.setMethod('Egypt');
+var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529], 7, 0, "24h")
 
 var user = []
 
 const config = require('./config')
-
-console.log(config)
 
 const client = new line.Client(config);
 
