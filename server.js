@@ -38,19 +38,14 @@ function handleEvent (event) {
             console.log("start")
             return client.replyMessage(event.replyToken, {
                 type : "text",
-                text : "Inisialisasi berhasil! \dbc0\dc7a"
+                text : `Inisialisasi berhasil! ${String.fromCodePoint(0x10007A)}`
             })
         }
         else if(message.text === "waktu sholat"){
             var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             return client.replyMessage(event.replyToken, {
                 type : "text",
-                text : `\dbc0\dca8 Waktu sholat untuk ${utc} \dbc0\dca8 
-                Subuh   : ${prayerTimes.fajr}
-                Dhuhur  : ${prayerTimes.dhuhr}
-                Ashar   : ${prayerTimes.asr}
-                Maghrib : ${prayerTimes.maghrib}
-                Isya    : ${prayerTimes.isha}`
+                text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk ${utc} ${String.fromCodePoint(0x1000A8)} \nSubuh   : ${prayerTimes.fajr}\nDhuhur  : ${prayerTimes.dhuhr}\nAshar   : ${prayerTimes.asr}\nMaghrib : ${prayerTimes.maghrib}\nIsya    : ${prayerTimes.isha}`
             })
         }
     }
@@ -58,11 +53,3 @@ function handleEvent (event) {
         return Promise.resolve(null);
     }
 }
-
-function findSurrogatePair(point) {
-    // assumes point > 0xffff
-    var offset = point - 0x10000,
-        lead = 0xd800 + (offset >> 10),
-        trail = 0xdc00 + (offset & 0x3ff);
-    return [lead.toString(16), trail.toString(16)];
-  }
