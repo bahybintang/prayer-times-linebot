@@ -8,10 +8,7 @@ var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0
 
 var user = []
 
-const config = {
-    channelAccessToken: 'QPpBgdobbUDWp/UbPt4ejatkYIqKnBkSl4o1ZMTuxhsCI/Y9o8KE/LrRqTwl33m4hh/oaVbN1JJaQWeDtbkCUe6+AdOgQiPh6B9JiY8B742vlwyKGiwdTvw645gqBb3JVHh0YipcMT9AMmiG65Ia8gdB04t89/1O/w1cDnyilFU=',
-    channelSecret: '8bce73487a599e8b2852357e49d803e3'
-}
+const config = require('./config.json')
 
 const client = new line.Client(config);
 
