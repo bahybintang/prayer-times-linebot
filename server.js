@@ -14,7 +14,7 @@ schedule.scheduleJob("1 0 * * *", () => {
     prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
 })
 
-const client = line.Client(config);
+const client = new line.Client(config);
 
 app.set('port', process.env.PORT || 5000)
 
@@ -43,11 +43,11 @@ function handleEvent (event) {
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : `\0x1000A8 Waktu sholat untuk ${utc} \0x1000A8 \n
-                        Subuh   : ${prayer.fajr}\n
-                        Dhuhur  : ${prayer.dhuhr}\n
-                        Ashar   : ${prayer.asr}\n
-                        Maghrib : ${prayer.maghrib}\n
-                        Isya    : ${prayer.isha}\n`
+                        Subuh   : ${prayerTimes.fajr}\n
+                        Dhuhur  : ${prayerTimes.dhuhr}\n
+                        Ashar   : ${prayerTimes.asr}\n
+                        Maghrib : ${prayerTimes.maghrib}\n
+                        Isya    : ${prayerTimes.isha}\n`
             })
         }
     }
