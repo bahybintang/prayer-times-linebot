@@ -1,7 +1,7 @@
 var schedule = require('node-schedule')
 var prayer = require('./PrayerTimes')
 var app = require('express')()
-const Client = require('@line/bot-sdk').Client
+var line = require('@line/bot-sdk')
 
 var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
 
@@ -14,7 +14,7 @@ schedule.scheduleJob("1 0 * * *", () => {
     prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529, 113], 7, 0, "24h")
 })
 
-const client = new Client(config);
+const client = line.Client(config);
 
 app.set('port', process.env.PORT || 5000)
 
@@ -22,7 +22,7 @@ app.listen(app.get('port'), () => {
     console.log(`Connected to port ${app.get('port')}!`)
 })
 
-app.post('/', (req, res) => {
+app.post('/', line.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result));
