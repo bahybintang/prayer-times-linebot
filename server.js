@@ -19,6 +19,10 @@ scheduling();
 
 schedule.scheduleJob("init", "1 0 * * *", scheduling)
 
+schedule.scheduleJob("refresh", "*/25 * * * *", () => {
+    console.log("Refresh avoid sleeping!")
+})
+
 app.set('port', (process.env.PORT || 5000))
 
 app.listen(app.get('port'), () => {
@@ -76,7 +80,7 @@ function scheduling() {
     const jobNames = _.keys(schedule.scheduledJobs);
     for(let name of jobNames){
         console.log(name)
-        if(name !== 'init'){
+        if(name !== 'init' || name !== "refresh"){
             schedule.cancelJob(name)
         }
     }
