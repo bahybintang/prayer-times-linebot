@@ -17,20 +17,6 @@ const config = require('./config')
 
 const client = new line.Client(config);
 
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Database connected!");
-    con.query('USE sql12272481', (err, data) => {
-        if (data) {
-            console.log(`Database selected!`)
-            scheduling()
-        }
-        if (err) {
-            console.log(err);
-        }
-    })
-});
-
 schedule.scheduleJob("init", "1 0 * * *", scheduling)
 
 app.set('port', (process.env.PORT || 5000))
