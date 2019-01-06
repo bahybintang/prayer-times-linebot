@@ -1,12 +1,8 @@
 var mysql = require('mysql');
 
-var pool = mysql.createPool({
-    host: "sql12.freemysqlhosting.net",
-    user: "sql12272481",
-    password: "u9RHXtNkTc",
-    database: "sql12272481",
-    multipleStatements: true
-});
+var dbconfig = require('./config').db
+
+var pool = mysql.createPool(dbconfig);
 
 module.exports = {
     query: function () {

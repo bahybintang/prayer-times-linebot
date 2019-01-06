@@ -13,7 +13,7 @@ var groups = []
 prayer.setMethod('Egypt');
 var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529], 7, 0, "24h")
 
-const config = require('./config')
+const config = require('./config').line
 
 const client = new line.Client(config);
 
