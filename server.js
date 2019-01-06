@@ -50,7 +50,6 @@ function handleEvent(event) {
     if (event.type === "message" && message.type === "text") {
         var msg = message.text
         message.text = message.text.toLowerCase()
-        console.log(message.text.split('//')[0])
         if(message.text.split('//')[0] == "sendall") {
             con.query("SELECT id FROM user", (err, data) => {
                 if(err){
@@ -62,6 +61,8 @@ function handleEvent(event) {
                     for(var dt of data){
                         user.push(dt.id)
                     }
+
+                    console.log(user)
 
                     client.multicast(user, {
                         type: "text",
