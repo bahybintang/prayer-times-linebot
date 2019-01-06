@@ -72,7 +72,7 @@ function handleEvent(event) {
         }
         else if (message.text === "start") {
             var src = event.source.userId ? event.source.userId : event.source.groupId
-            var source
+            var source = []
             source.push(src)
             console.log(source)
             con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
