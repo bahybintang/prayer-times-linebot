@@ -51,6 +51,7 @@ function handleEvent(event) {
         var msg = message.text
         message.text = message.text.toLowerCase()
         if(message.text.substring(0, 6) === "sendall") {
+            console.log(message.text + " here")
             con.query("SELECT id FROM user", (err, data) => {
                 if(err){
                     console.log(err)
