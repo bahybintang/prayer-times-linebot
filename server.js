@@ -51,7 +51,7 @@ function handleEvent(event) {
         var msg = message.text
         message.text = message.text.toLowerCase()
         if(message.text.split('//')[0] == "sendall") {
-            con.query("SELECT id FROM user", (err, data) => {
+            con.query("SELECT id FROM user WHERE type = 'user'", (err, data) => {
                 if(err){
                     console.log(err)
                 }
@@ -72,10 +72,34 @@ function handleEvent(event) {
                     })
                 }
             })
+            con.query("SELECT id FROM user WHERE type = 'group'", (err, data) => {
+                if(err){
+                    console.log(err)
+                }
+                else {
+                    user = []
+
+                    for(var dt of data){
+                        user.push(dt.id)
+                    }
+
+                    console.log(user)
+
+                    for(var usr of user){
+                        client.pushMessage(usr, {
+                            type: "text",
+                            text: `${msg.split('//')[1]}`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                }
+            })
         }
         else if (message.text === "start") {
             var source = event.source.groupId ? event.source.groupId : event.source.userId
-            con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
+            var type = event.source.groupId ? "group" : "user"
+            con.query(`INSERT INTO user (id, type) VALUES ('${source}', '${type}')`, (err, data) => { 
                 if (err) {
                     console.log(err); 
                 } 
@@ -237,7 +261,8 @@ function handleEvent(event) {
     }
     else if (event.type === "follow") {
         var source = event.source.groupId ? event.source.groupId : event.source.userId
-        con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
+        var type = event.source.groupId ? "group" : "user"
+        con.query(`INSERT INTO user (id, type) VALUES ('${source}', '${type}')`, (err, data) => { 
             if (err) {
                 console.log(err); 
             } 
@@ -248,7 +273,8 @@ function handleEvent(event) {
     }
     else if (event.type === "join") {
         var source = event.source.groupId ? event.source.groupId : event.source.userId
-        con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
+        var type = event.source.groupId ? "group" : "user"
+        con.query(`INSERT INTO user (id, type) VALUES ('${source}', '${type}')`, (err, data) => { 
             if (err) {
                 console.log(err); 
             } 
