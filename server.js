@@ -7,7 +7,8 @@ var line = require('@line/bot-sdk')
 var con = require('./models')
 require('newrelic')
 
-var user
+var user = []
+var groups = []
 
 prayer.setMethod('Egypt');
 var prayerTimes = prayer.getTimes(new Date(), [-7.797068, 110.370529], 7, 0, "24h")
@@ -51,47 +52,43 @@ function handleEvent(event) {
         var msg = message.text
         message.text = message.text.toLowerCase()
         if(message.text.split('//')[0] == "sendall") {
-            con.query("SELECT id FROM user WHERE type = 'user'", (err, data) => {
+            con.query("SELECT id FROM user", (err, data) => {
                 if(err){
                     console.log(err)
                 }
                 else {
                     user = []
-
+                    groups = []
+                    
                     for(var dt of data){
-                        user.push(dt.id)
+                        if(dt.type === "user"){
+                            user.push(dt.id)
+                        }
+                        else {
+                            groups.push(dt.id)
+                        }
                     }
 
                     console.log(user)
 
-                    client.multicast(user, {
-                        type: "text",
-                        text: `${msg.split('//')[1]}`
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                }
-            })
-            con.query("SELECT id FROM user WHERE type = 'group'", (err, data) => {
-                if(err){
-                    console.log(err)
-                }
-                else {
-                    user = []
-
-                    for(var dt of data){
-                        user.push(dt.id)
-                    }
-
-                    console.log(user)
-
-                    for(var usr of user){
-                        client.pushMessage(usr, {
+                    if(user.length !== 0){
+                        client.multicast(user, {
                             type: "text",
                             text: `${msg.split('//')[1]}`
                         }).catch(err => {
                             console.log(err)
                         })
+                    }
+
+                    if(groups.length !== 0) {
+                        for(var group of groups){
+                            client.pushMessage(group, {
+                                type: "text",
+                                text: `${msg.split('//')[1]}`
+                            }).catch(err => {
+                                console.log(err)
+                            })
+                        }
                     }
                 }
             })
@@ -308,14 +305,20 @@ function scheduling() {
     }
 
     user = []
+    groups = []
 
-    con.query("SELECT id FROM user", (err, data) => {
+    con.query("SELECT id, type FROM user", (err, data) => {
         if(err){
             console.log(err)
         }
         else {
             for(var dt of data){
-                user.push(dt.id)
+                if(dt.type === "user"){
+                    user.push(dt.id)
+                }
+                else {
+                    groups.push(dt.id)
+                }
             }
 
             schedule.scheduleJob("dhuhr", `${Number(prayerTimes.dhuhr.split(':')[1])} ${Number(prayerTimes.dhuhr.split(':')[0])} * * *`, () => {
@@ -326,6 +329,16 @@ function scheduling() {
                     }).catch(err => {
                         console.log(err)
                     })
+                }
+                if(groups.length !== 0){
+                    for(var group of groups){
+                        client.pushMessage(group, {
+                            type: "text",
+                            text: `[Waktunya Dzuhur, Sholat lur]\n\n📢 Hayya 'alassholaah 📢\n"Suara adzan sudah berkumandang, itu tandanya Allah mengundang. Yuk lur, segera hadir menghadap-Nya."\n\nAmbil air wudhu-niatkan sholat dzuhur-sholatlah dengan khusyuk.\n\n#DzuhurTime\n#LillahiTa'ala`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
                 }
             })
         
@@ -338,6 +351,17 @@ function scheduling() {
                         console.log(err)
                     })
                 }
+
+                if(groups.length !== 0){
+                    for(var group of groups){
+                        client.pushMessage(group, {
+                            type: "text",
+                            text: `[Waktunya Ashar]\n\n📢Hayya 'alassholaah📢\nAdzan sudah berkumandang, Mari tegakkan sholat wahai hamba Allah ☺\n\nJadikanlah sholat itu sebagai kebutuhan, bukan penggugur kewajiban. InsyaAllah hidup ini akan terasa lengkap jika kebutuhan kita terpenuhi☺\n\nSo..\nPenuhi panggilan adzan, ambil air wudhu, niatkan sholat, sholatlah dengan khusyuk.\n\nSemoga ridho Allah selalu mengiringi disetiap ibadah kita, Aamiin😊`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                }
             })
         
             schedule.scheduleJob("fajr", `${Number(prayerTimes.fajr.split(':')[1])} ${Number(prayerTimes.fajr.split(':')[0])} * * *`, () => {
@@ -348,6 +372,17 @@ function scheduling() {
                     }).catch(err => {
                         console.log(err)
                     })
+                }
+
+                if(groups.length !== 0){
+                    for(var group of groups){
+                        client.pushMessage(group, {
+                            type: "text",
+                            text: `[Waktunya Subuh, Sholat itu lebih baik daripada tidur]\n\n📢 Asholatu khairum minannaum 📢\n\n"Suara adzan sudah berkumandang, itu tandanya kita sudah diundang, oleh siapa? Ya, oleh-Nya."\n\nSo..\nPenuhi undangan-Nya, dengan mengambil air wudhu, lalu niatkan sholat subuh, sholatlah dengan khusyuk.\n\n#SemogaRidhoAllahSelaluMengiringiIbadahHamba-Nya. Aamiin😊`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
                 }
             })
         
@@ -360,6 +395,17 @@ function scheduling() {
                         console.log(err)
                     })
                 }
+
+                if(groups.length !== 0){
+                    for(var group of groups){
+                        client.pushMessage(group, {
+                            type: "text",
+                            text: `[Waktunya Isya]\n\nHayya 'alassholaah📢\nAdzan sudah berkumandang, Mari tegakkan sholat wahai hamba Allah ☺\n\nJadikanlah sholat itu sebagai kebutuhan, bukan penggugur kewajiban. InsyaAllah hidup ini akan terasa lengkap jika kebutuhan kita terpenuhi☺\n\nPenuhi panggilan adzan, ambil air wudhu, niatkan sholat, sholatlah dengan khusyuk.\n\nSemoga ridho Allah selalu mengiringi disetiap ibadah kita, Aamiin😊`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                }
             })
         
             schedule.scheduleJob("maghrib", `${Number(prayerTimes.maghrib.split(':')[1])} ${Number(prayerTimes.maghrib.split(':')[0])} * * *`, () => {
@@ -370,6 +416,17 @@ function scheduling() {
                     }).catch(err => {
                         console.log(err)
                     })
+                }
+
+                if(groups.length !== 0){
+                    for(var group of groups){
+                        client.pushMessage(group, {
+                            type: "text",
+                            text: `[Waktunya Maghrib, Sholat sob]\n\n📢Hayya 'alassholaah📢\nAdzan sudah berkumandang, Mari tegakkan sholat wahai hamba Allah ☺\n\nJadikanlah sholat itu sebagai kebutuhan, bukan penggugur kewajiban. InsyaAllah hidup ini akan terasa lengkap jika kebutuhan kita terpenuhi☺\n\nSo..\n\nPenuhi panggilan adzan, ambil air wudhu, niatkan sholat, sholatlah dengan khusyuk.\n\nSemoga ridho Allah selalu mengiringi disetiap ibadah kita, Aamiin😊`
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
                 }
             })
         }
