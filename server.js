@@ -73,7 +73,7 @@ function handleEvent(event) {
         else if (message.text === "start") {
             var source = event.source.userId ? event.source.userId : event.source.groupId
             console.log(source)
-            con.query(`INSERT INTO user (id) VALUES '${source}'`, (err, data) => { if (err) { console.log(err); } })
+            con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { if (err) { console.log(err); } })
 
             return client.replyMessage(event.replyToken, {
                 type: "text",
@@ -228,11 +228,11 @@ function handleEvent(event) {
     }
     else if (event.type === "follow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES '${source}'`, (err, data) => { if (err) { console.log(err); } })
+        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { if (err) { console.log(err); } })
     }
     else if (event.type === "join") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES '${source}'`, (err, data) => {
+        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => {
             if (err) {
                 console.log(err);
             }
@@ -245,7 +245,7 @@ function handleEvent(event) {
     }
     else if (event.type === "unfollow" || event.type === "leave") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`DELETE FROM user WHERE id = '${source}'`, (err, data) => { if (err) { console.log(err) } })
+        con.query(`DELETE FROM user WHERE id = ?`, [source], (err, data) => { if (err) { console.log(err) } })
     }
     return Promise.resolve(null);
 }
