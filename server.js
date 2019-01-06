@@ -50,7 +50,7 @@ function handleEvent(event) {
     if (event.type === "message" && message.type === "text") {
         var msg = message.text
         message.text = message.text.toLowerCase()
-        if(message.text.substr(0, 7) === "sendall") {
+        if(message.text.substr(0, 7) == "sendall") {
             con.query("SELECT id FROM user", (err, data) => {
                 if(err){
                     console.log(err)
