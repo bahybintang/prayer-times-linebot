@@ -72,7 +72,7 @@ function handleEvent (event) {
                                 "contents": [
                                     {
                                         "type": "text",
-                                        "text": `${String.fromCodePoint(0x1000A8)} Jadwal Sholat Hari Ini ${String.fromCodePoint(0x1000A8)}`,
+                                        "text": `Jadwal Sholat Hari Ini`,
                                         "wrap": true,
                                         "weight": "bold",
                                         "margin": "lg"
