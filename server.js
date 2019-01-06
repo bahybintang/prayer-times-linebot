@@ -72,6 +72,7 @@ function handleEvent(event) {
         }
         else if (message.text === "start") {
             var source = event.source.userId ? event.source.userId : event.source.groupId
+            console.log(source)
             con.query(`INSERT INTO user (id) VALUES '${source}'`, (err, data) => { if (err) { console.log(err); } })
 
             return client.replyMessage(event.replyToken, {
