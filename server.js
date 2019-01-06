@@ -71,9 +71,18 @@ function handleEvent(event) {
             })
         }
         else if (message.text === "start") {
-            var source = event.source.userId ? event.source.userId : event.source.groupId
+            var src = event.source.userId ? event.source.userId : event.source.groupId
+            var source
+            source.push(src)
             console.log(source)
-            con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { if (err) { console.log(err); } })
+            con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
+                if (err) {
+                    console.log(err); 
+                } 
+                else {
+                    scheduling();
+                }
+            })
 
             return client.replyMessage(event.replyToken, {
                 type: "text",
@@ -228,13 +237,23 @@ function handleEvent(event) {
     }
     else if (event.type === "follow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { if (err) { console.log(err); } })
+        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
+            if (err) {
+                console.log(err); 
+            } 
+            else {
+                scheduling();
+            }
+        })
     }
     else if (event.type === "join") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => {
+        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
             if (err) {
-                console.log(err);
+                console.log(err); 
+            } 
+            else {
+                scheduling();
             }
         })
 
