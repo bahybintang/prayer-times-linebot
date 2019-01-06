@@ -72,8 +72,8 @@ function handleEvent(event) {
         }
         else if (message.text === "start") {
             var source = event.source.userId ? event.source.userId : event.source.groupId
-            console.log(source)
-            var sql = `INSERT INTO user (id) VALUES '${source}'`
+            var sql = `INSERT INTO user (id) VALUES '${con.escape(source)}'`
+            console.log(sql)
             con.query(sql, (err, data) => { 
                 if (err) {
                     console.log(err); 
