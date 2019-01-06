@@ -49,13 +49,13 @@ function handleEvent (event) {
                 text : `Inisialisasi berhasil! ${String.fromCodePoint(0x10007A)}`
             })
         }
-        else if(message.text === "waktu sholat"){
+        else if(message.text === "waktu sholat text"){
             return client.replyMessage(event.replyToken, {
                 type : "text",
                 text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk hari ini ${String.fromCodePoint(0x1000A8)} \n\nSubuh    : ${prayerTimes.fajr}\nDhuhur   : ${prayerTimes.dhuhr}\nAshar     : ${prayerTimes.asr}\nMaghrib  : ${prayerTimes.maghrib}\nIsya      : ${prayerTimes.isha}`
             })
         }
-        else if(message.text === "flex"){
+        else if(message.text === "waktu sholat"){
             return client.replyMessage(event.replyToken, {
                 "type": "flex",
                 "altText": "Jadwal Sholat Hari Ini",
@@ -72,7 +72,7 @@ function handleEvent (event) {
                                 "contents": [
                                     {
                                         "type": "text",
-                                        "text": "Jadwal Sholat Hari Ini",
+                                        "text": `${String.fromCodePoint(0x1000A8)} Jadwal Sholat Hari Ini ${String.fromCodePoint(0x1000A8)}`,
                                         "wrap": true,
                                         "weight": "bold",
                                         "margin": "lg"
