@@ -72,9 +72,7 @@ function handleEvent(event) {
         }
         else if (message.text === "start") {
             var source = event.source.userId ? event.source.userId : event.source.groupId
-            var sql = "INSERT INTO user (id) VALUES '" + source + "'"
-            console.log(sql)
-            con.query(sql, (err, data) => { 
+            con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
                 if (err) {
                     console.log(err); 
                 } 
@@ -236,7 +234,7 @@ function handleEvent(event) {
     }
     else if (event.type === "follow") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
+        con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
             if (err) {
                 console.log(err); 
             } 
@@ -247,7 +245,7 @@ function handleEvent(event) {
     }
     else if (event.type === "join") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
-        con.query(`INSERT INTO user (id) VALUES ?`, [source], (err, data) => { 
+        con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
             if (err) {
                 console.log(err); 
             } 
