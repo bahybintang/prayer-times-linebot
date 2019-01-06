@@ -48,8 +48,9 @@ function handleEvent(event) {
     const message = event.message
 
     if (event.type === "message" && message.type === "text") {
+        var msg = message.text
         message.text = message.text.toLowerCase()
-        if(message.text === "pingall") {
+        if(message.text.substring(0, 6) === "sendall") {
             con.query("SELECT id FROM user", (err, data) => {
                 if(err){
                     console.log(err)
@@ -63,7 +64,7 @@ function handleEvent(event) {
 
                     client.multicast(user, {
                         type: "text",
-                        text: `ping`
+                        text: `${msg.substring(7, msg.length - 1)}`
                     }).catch(err => {
                         console.log(err)
                     })
@@ -71,7 +72,7 @@ function handleEvent(event) {
             })
         }
         else if (message.text === "start") {
-            var source = event.source.userId ? event.source.userId : event.source.groupId
+            var source = event.source.groupId ? event.source.groupId : event.source.userId
             con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
                 if (err) {
                     console.log(err); 
@@ -233,7 +234,7 @@ function handleEvent(event) {
         }
     }
     else if (event.type === "follow") {
-        var source = event.source.userId ? event.source.userId : event.source.groupId
+        var source = event.source.groupId ? event.source.groupId : event.source.userId
         con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
             if (err) {
                 console.log(err); 
@@ -244,7 +245,7 @@ function handleEvent(event) {
         })
     }
     else if (event.type === "join") {
-        var source = event.source.userId ? event.source.userId : event.source.groupId
+        var source = event.source.groupId ? event.source.groupId : event.source.userId
         con.query(`INSERT INTO user (id) VALUES (?)`, [source], (err, data) => { 
             if (err) {
                 console.log(err); 
