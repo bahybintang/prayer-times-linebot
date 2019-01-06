@@ -50,10 +50,148 @@ function handleEvent (event) {
             })
         }
         else if(message.text === "waktu sholat"){
-            var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
             return client.replyMessage(event.replyToken, {
                 type : "text",
-                text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk ${utc} ${String.fromCodePoint(0x1000A8)} \n\nSubuh    : ${prayerTimes.fajr}\nDhuhur   : ${prayerTimes.dhuhr}\nAshar     : ${prayerTimes.asr}\nMaghrib  : ${prayerTimes.maghrib}\nIsya      : ${prayerTimes.isha}`
+                text : `${String.fromCodePoint(0x1000A8)} Waktu sholat untuk hari ini ${String.fromCodePoint(0x1000A8)} \n\nSubuh    : ${prayerTimes.fajr}\nDhuhur   : ${prayerTimes.dhuhr}\nAshar     : ${prayerTimes.asr}\nMaghrib  : ${prayerTimes.maghrib}\nIsya      : ${prayerTimes.isha}`
+            })
+        }
+        else if(message.text === "flex"){
+            return client.replyMessage(event.replyToken, {
+                "type": "flex",
+                "altText": "Jadwal Sholat Hari Ini",
+                "contents": {
+                    "type": "bubble",
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "spacing": "md",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Jadwal Sholat Hari Ini",
+                                        "wrap": true,
+                                        "weight": "bold",
+                                        "margin": "lg"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "separator"
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "margin": "lg",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "Subuh ",
+                                                "flex": 5,
+                                                "size": "lg",
+                                                "weight": "bold",
+                                                "color": "#666666"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `${prayerTimes.fajr}`,
+                                                "wrap": true,
+                                                "flex": 5
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "Dhuhur ",
+                                                "flex": 5,
+                                                "size": "lg",
+                                                "weight": "bold",
+                                                "color": "#666666"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `${prayerTimes.dhuhr}`,
+                                                "wrap": true,
+                                                "flex": 5
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "Ashar ",
+                                                "flex": 5,
+                                                "size": "lg",
+                                                "weight": "bold",
+                                                "color": "#666666"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `${prayerTimes.asr}`,
+                                                "wrap": true,
+                                                "flex": 5
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "Maghrib",
+                                                "flex": 5,
+                                                "size": "lg",
+                                                "weight": "bold",
+                                                "color": "#666666"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `${prayerTimes.maghrib}`,
+                                                "wrap": true,
+                                                "flex": 5
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "Isya",
+                                                "flex": 5,
+                                                "size": "lg",
+                                                "weight": "bold",
+                                                "color": "#666666"
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": `${prayerTimes.isha}`,
+                                                "wrap": true,
+                                                "flex": 5
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
             })
         }
     }
@@ -65,16 +203,27 @@ function handleEvent (event) {
             user.push(source)
         }
     }
-    else if (event.type === "unfollow") {
+    else if (event.type === "join") {
+        var source = event.source.userId ? event.source.userId : event.source.groupId
+        var index = user.indexOf(source)
+
+        if(index < 0){
+            user.push(source)
+        }
+
+        return client.replyMessage(event.replyToken, {
+            type : "text",
+            text : `${String.fromCodePoint(0x1000A8)} Assalamualaikum wr. wb ${String.fromCodePoint(0x1000A8)}\nTerima kasih sudah menambahkan aku sebagai teman! \n\nSemoga dengan bot ini kamu lebih rajin sholat ya! ${String.fromCodePoint(0x10008D)}\n\nTenang aja, kamu bakal aku ingetin kok kalau waktu sholat datang! ${String.fromCodePoint(0x10008D)}`
+        })
+    }
+    else if (event.type === "unfollow" || event.type === "leave") {
         var source = event.source.userId ? event.source.userId : event.source.groupId
         var index = user.indexOf(source)
         if(index > -1) {
             user.splice(index, 1)
         }
     }
-    else {
-        return Promise.resolve(null);
-    }
+    return Promise.resolve(null);
 }
 
 function scheduling() {

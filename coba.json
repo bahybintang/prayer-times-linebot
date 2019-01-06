@@ -1,0 +1,117 @@
+{
+    "type": "flex",
+    "altText": "Jadwal Sholat Hari Ini",
+    "contents": {
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "md",
+            "contents": [
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "Jadwal Sholat Hari Ini",
+                            "wrap": true,
+                            "weight": "bold",
+                            "margin": "lg"
+                        }
+                    ]
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Subuh ",
+                                    "flex": 5,
+                                    "size": "lg",
+                                    "weight": "bold",
+                                    "color": "#666666"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Login API",
+                                    "wrap": true,
+                                    "flex": 5
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Dhuhur ",
+                                    "flex": 5,
+                                    "size": "lg",
+                                    "weight": "bold",
+                                    "color": "#666666"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Messaging API",
+                                    "wrap": true,
+                                    "flex": 5
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Ashar ",
+                                    "flex": 5,
+                                    "size": "lg",
+                                    "weight": "bold",
+                                    "color": "#666666"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Graph API",
+                                    "wrap": true,
+                                    "flex": 5
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "baseline",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Maghrib",
+                                    "flex": 5,
+                                    "size": "lg",
+                                    "weight": "bold",
+                                    "color": "#666666"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "Cartoon API",
+                                    "wrap": true,
+                                    "flex": 5
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
